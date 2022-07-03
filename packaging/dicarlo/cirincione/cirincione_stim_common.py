@@ -6,7 +6,7 @@ import pandas as pd
 from glob import glob
 import scipy.ndimage as nd
 import matplotlib.pyplot as plt
-from brainio_base.stimuli import StimulusSet
+from brainio.stimuli import StimulusSet
 from tqdm import tqdm
 
 xyY_COLOR_DICT = {'red': np.array([.6, .35, 14]),

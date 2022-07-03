@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from cirincione_stim_common import gen_BO_stim, load_stim_info
-from brainio_collection.packaging import package_stimulus_set
+from brainio.packaging import package_stimulus_set
 
 BO_STIM_NAME = 'dicarlo.Cirincione2022_border_ownership'
 DATA_DIR = '/braintree/data2/active/users/andrewci/stimulus_sets/' #(braintree stimulus folder)

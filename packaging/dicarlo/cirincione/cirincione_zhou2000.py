@@ -1,8 +1,8 @@
 import numpy as np
 import xarray
 from cirincione_utils import gen_sample
-from brainio_collection.packaging import package_data_assembly
-from brainio_base.assemblies import DataAssembly
+from brainio.packaging import package_data_assembly
+from brainio.assemblies import DataAssembly
 
 ASSEMBLY_NAME = 'cirincione_zhou2000'
 BO_STIM_NAME = 'dicarlo.Cirincione2022_border_ownership'
