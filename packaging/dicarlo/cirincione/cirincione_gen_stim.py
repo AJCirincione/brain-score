@@ -20,7 +20,7 @@ STIM_PARAMS = {BO_STIM_NAME: BO_PARAMS}
 
 def main():
     for stim_name in STIM_NAMES:
-        stim_dir = DATA_DIR + os.sep + stim_name
+        stim_dir = DATA_DIR + stim_name
         if not (os.path.isdir(stim_dir)):
             gen_BO_stim(BO_params = STIM_PARAMS[stim_name], save_dir = stim_dir)
         stimuli = load_stim_info(stim_name, stim_dir)
