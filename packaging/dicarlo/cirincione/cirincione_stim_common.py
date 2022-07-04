@@ -63,7 +63,7 @@ class BO_Stimulus:
         DIR = self.save_dir
         color_idx = 0
         print('Generating Stimulus...')
-        for color_name in tqdm(self.colors.keys()[0:14]):
+        for color_name in tqdm(list(self.colors.keys())[0:14]):
 
             for polarity in range(2):
                 if polarity == 0:
@@ -142,7 +142,7 @@ class BO_Stimulus:
         #Credit to https://www.easyrgb.com/en/math.php
         xyY_color_dict = self.xyY_color_dict
         rgb_color_dict = self.blank  # posx and posy offset
-        for keys in list(xyY_color_dict.keys())[0:14]:
+        for keys in xyY_color_dict.keys():
             Y = xyY_color_dict[keys][2]
             X = xyY_color_dict[keys][0] * (Y / xyY_color_dict[keys][1])
             Z = (1 - xyY_color_dict[keys][0] - xyY_color_dict[keys][1]) * (Y / xyY_color_dict[keys][1])
