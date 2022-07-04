@@ -60,7 +60,7 @@ class BO_Optim:
         ground_color = np.array([118.180, 124.506, 129.323])
         BO_optim_stim_data = pd.DataFrame(
             columns=['image_id', 'degrees', 'posy', 'posx', 'color', 'orientation', 'width',
-                     'length'])  # posx and posy offset
+                     'length', 'image_file_name', 'image_current_local_file_path'])  # posx and posy offset
         # image_id degrees posy posx color orientation width length
         color_idx = 0
         DIR = self.save_dir
@@ -81,11 +81,12 @@ class BO_Optim:
                         ID = str(color_idx).zfill(2) + str(width_idx).zfill(2) + str(length_idx).zfill(2) + str(
                             division_idx).zfill(2)
                         BO_optim_stim_img = BO_optim_stim_oris[d].astype(np.uint8)
+                        file_name = 'BO_optim_' + str(ID) + '.png'
                         BO_optim_stim_data = BO_optim_stim_data.append(
                             {'image_id': ID, 'degrees': visual_degrees, 'posy': posy, 'posx': posx, 'color': color_name,
-                             'orientation': 180 / 12 * d, 'width': W, 'length': L, },
+                             'orientation': 180 / 12 * d, 'width': W, 'length': L, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
-                        file_name = 'BO_optim_' + str(ID) + '.png'
+
                         imageio.imwrite(os.path.join(self.save_dir,file_name), BO_optim_stim_img)
                         division_idx += 1
                     length_idx += 1
@@ -110,7 +111,7 @@ class BO_Stimulus:
         self.ground = self.colors['light_gray']
 
         BO_standard_test_stim_data = pd.DataFrame(
-            columns=['image_id', 'degrees', 'posy', 'posx', 'color', 'orientation', 'polarity', 'side'])
+            columns=['image_id', 'degrees', 'posy', 'posx', 'color', 'orientation', 'polarity', 'side',  'image_file_name', 'image_current_local_file_path'])
         DIR = self.save_dir
         color_idx = 0
         print('Generating Stimulus...')
@@ -141,13 +142,13 @@ class BO_Stimulus:
                         ID = str(color_idx).zfill(2) + str(polarity).zfill(2) + str(side).zfill(2) + str(
                             division_idx).zfill(2)
                         BO_standard_test_stim_img = BO_standard_test_stim_oris[d].astype(np.uint8)
-
+                        file_name = 'BO_stim_' + str(ID) + '.png'
                         BO_standard_test_stim_data = BO_standard_test_stim_data.append(
                             {'image_id': ID, 'degrees': self.visual_degrees, 'posy': self.posy, 'posx': self.posx, 'color': color_name,
-                             'orientation': 180 / 12 * d, 'polarity': polarity, 'side': side, },
+                             'orientation': 180 / 12 * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
 
-                        file_name = 'BO_stim_' + str(ID) + '.png'
+
                         imageio.imwrite(os.path.join(DIR,file_name), BO_standard_test_stim_img)
 
                         division_idx += 1
