@@ -91,7 +91,7 @@ class BO_Optim:
                     length_idx += 1
                 width_idx += 1
             color_idx += 1
-        BO_optim_stim_data.to_csv(self.save_dir + 'BO_optim_data', index=False)
+        BO_optim_stim_data.to_csv(os.path.join(DIR,'stimulus_set'), index=False)
 
 class BO_Stimulus:
     def __init__(self, save_dir, stim_size = 672, visual_degrees = 12,
@@ -152,7 +152,7 @@ class BO_Stimulus:
 
                         division_idx += 1
             color_idx += 1
-        BO_standard_test_stim_data.to_csv(DIR + 'BO_stim_data', index=False)
+        BO_standard_test_stim_data.to_csv(os.path.join(DIR,'stimulus_set'), index=False)
         self.stim_data = BO_standard_test_stim_data
 
 def xyY_to_RGB(xyY_color_dict, blank):
