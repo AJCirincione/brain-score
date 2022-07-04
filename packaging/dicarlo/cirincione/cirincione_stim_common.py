@@ -82,7 +82,7 @@ class BO_Stimulus:
                                                                    width=self.sqr_deg / self.visual_degrees,
                                                                    stim_size=self.stim_size,
                                                                    divisions=self.divisions, figure_color=figure,
-                                                                   ground_color=ground, xshift=xshift,
+                                                                   ground_color=ground, xshift=xshift, yshift=0,
                                                                    posx=self.posx / self.visual_degrees,
                                                                    posy=self.posy / self.visual_degrees)
                     division_idx = 0
