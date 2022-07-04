@@ -50,8 +50,8 @@ class BO_Optim:
         self.visual_degrees = visual_degrees
         divisions = int(divisions)
         self.divisions = int(divisions)
-        self.posx = int(posx)
-        self.posy = int(posy)
+        self.posx = posx
+        self.posy = posy
         self.colors = xyY_to_RGB(xyY_COLOR_DICT, blank)
         self.ground = self.colors['light_gray']
         # pos array 0.5 0.5
