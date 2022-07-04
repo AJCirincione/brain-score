@@ -194,7 +194,7 @@ def xyY_to_RGB(xyY_color_dict, blank):
         return rgb_color_dict
 
 
-def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_color, xshift, yshift, posx, posy):
+def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_color, xshift=0, yshift=0, posx=0.1, posy=0.1):
 
         angles = np.linspace(90, -90, divisions, endpoint=False)
         xshift = int((stim_size * xshift) // 2)
