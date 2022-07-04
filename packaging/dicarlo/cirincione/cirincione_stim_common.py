@@ -51,6 +51,7 @@ class BO_Stimulus:
         self.blank = blank
         self.visual_degrees = visual_degrees
         self.divisions = int(divisions)
+        print(divisions)
         self.posx = posx
         self.posy = posy
         self.sqr_deg = sqr_deg
