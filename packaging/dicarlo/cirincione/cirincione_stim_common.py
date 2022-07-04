@@ -63,6 +63,7 @@ class BO_Optim:
                      'length'])  # posx and posy offset
         # image_id degrees posy posx color orientation width length
         color_idx = 0
+        DIR = self.save_dir
         print('Constructing...')
         for color_name in tqdm(list(self.colors.keys())[0:14]):
             width_idx = 0
@@ -84,13 +85,13 @@ class BO_Optim:
                             {'image_id': ID, 'degrees': visual_degrees, 'posy': posy, 'posx': posx, 'color': color_name,
                              'orientation': 180 / 12 * d, 'width': W, 'length': L, },
                             ignore_index=True)
-                        file_name = 'BO_optim_stim_' + str(ID) + '.png'
+                        file_name = 'BO_optim_' + str(ID) + '.png'
                         imageio.imwrite(self.save_dir + file_name, BO_optim_stim_img)
                         division_idx += 1
                     length_idx += 1
                 width_idx += 1
             color_idx += 1
-        BO_optim_stim_data.to_csv(self.save_dir + 'BO_optim_stim_data', index=False)
+        BO_optim_stim_data.to_csv(self.save_dir + 'BO_optim_data', index=False)
 
 class BO_Stimulus:
     def __init__(self, save_dir, stim_size = 672, visual_degrees = 12,
@@ -146,12 +147,12 @@ class BO_Stimulus:
                              'orientation': 180 / 12 * d, 'polarity': polarity, 'side': side, },
                             ignore_index=True)
 
-                        file_name = 'BO_standard_test_stim_' + str(ID) + '.png'
+                        file_name = 'BO_stim_' + str(ID) + '.png'
                         imageio.imwrite(DIR + file_name, BO_standard_test_stim_img)
 
                         division_idx += 1
             color_idx += 1
-        BO_standard_test_stim_data.to_csv(DIR + 'stimulus_set', index=False)
+        BO_standard_test_stim_data.to_csv(DIR + 'BO_stim_data', index=False)
         self.stim_data = BO_standard_test_stim_data
 
 def xyY_to_RGB(xyY_color_dict, blank):
