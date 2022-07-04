@@ -86,7 +86,7 @@ class BO_Optim:
                              'orientation': 180 / 12 * d, 'width': W, 'length': L, },
                             ignore_index=True)
                         file_name = 'BO_optim_' + str(ID) + '.png'
-                        imageio.imwrite(self.save_dir + file_name, BO_optim_stim_img)
+                        imageio.imwrite(os.path.join(self.save_dir,file_name), BO_optim_stim_img)
                         division_idx += 1
                     length_idx += 1
                 width_idx += 1
@@ -148,7 +148,7 @@ class BO_Stimulus:
                             ignore_index=True)
 
                         file_name = 'BO_stim_' + str(ID) + '.png'
-                        imageio.imwrite(DIR + file_name, BO_standard_test_stim_img)
+                        imageio.imwrite(os.path.join(DIR,file_name), BO_standard_test_stim_img)
 
                         division_idx += 1
             color_idx += 1
