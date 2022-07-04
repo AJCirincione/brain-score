@@ -47,14 +47,14 @@ class BO_Stimulus:
     def __init__(self, save_dir, stim_size = 672, visual_degrees = 12,
                                  divisions = 12, posy = 0.5, posx = 0.5, sqr_deg=4):
         self.save_dir = save_dir
-        self.stim_size = stim_size
+        self.stim_size = int(stim_size)
         self.blank = blank
         self.visual_degrees = visual_degrees
         divisions = int(divisions)
         self.divisions = int(divisions)
-        self.posx = posx
-        self.posy = posy
-        self.sqr_deg = sqr_deg
+        self.posx = int(posx)
+        self.posy = int(posy)
+        self.sqr_deg = int(sqr_deg)
         self.xyY_color_dict = xyY_COLOR_DICT
         self.colors = self.xyY_to_RGB()
         self.ground = self.colors['light_gray']
@@ -108,13 +108,13 @@ class BO_Stimulus:
     def generate_bar_stim(self, length, width, stim_size, divisions, figure_color, ground_color, xshift, yshift, posx, posy):
         angles = np.linspace(90, -90, divisions, endpoint=False)
 
-        xshift = int((stim_size * xshift) // 2)
-        yshift = int((stim_size * yshift) // 2)
-        radius_L = int((stim_size * length) // 2)
-        radius_W = int((stim_size * width) // 2)
+        xshift = int((self.stim_size * xshift) // 2)
+        yshift = int((self.stim_size * yshift) // 2)
+        radius_L = int((self.stim_size * length) // 2)
+        radius_W = int((self.stim_size * width) // 2)
 
-        square_stim = np.zeros((self.divisions, stim_size, stim_size, 3))
-        surround_stim = np.zeros((self.divisions, stim_size * 2, stim_size * 2, 3))
+        square_stim = np.zeros((self.divisions, self.stim_size, self.stim_size, 3))
+        surround_stim = np.zeros((self.divisions, self.stim_size * 2, self.stim_size * 2, 3))
         surround_stim[:, :, :] = ground_color
 
         origin = stim_size // 2
