@@ -102,8 +102,8 @@ class BO_Stimulus:
         self.visual_degrees = visual_degrees
         divisions = int(divisions)
         self.divisions = int(divisions)
-        self.posx = int(posx)
-        self.posy = int(posy)
+        self.posx = posx
+        self.posy = posy
         self.sqr_deg = int(sqr_deg)
         self.xyY_color_dict = xyY_COLOR_DICT
         self.colors = xyY_to_RGB(xyY_COLOR_DICT, blank)
