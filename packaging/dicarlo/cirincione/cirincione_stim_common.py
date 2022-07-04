@@ -142,7 +142,7 @@ class BO_Stimulus:
         #Credit to https://www.easyrgb.com/en/math.php
         xyY_color_dict = self.xyY_color_dict
         rgb_color_dict = self.blank  # posx and posy offset
-        for keys in xyY_color_dict.keys():
+        for keys in list(xyY_color_dict.keys())[0:14]:
             Y = xyY_color_dict[keys][2]
             X = xyY_color_dict[keys][0] * (Y / xyY_color_dict[keys][1])
             Z = (1 - xyY_color_dict[keys][0] - xyY_color_dict[keys][1]) * (Y / xyY_color_dict[keys][1])
