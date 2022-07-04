@@ -126,14 +126,14 @@ class BO_Stimulus:
 
                 for side in range(2):
                     if side == 0:
-                        xshift = self.sqr_deg//2
+                        xshift = 0.5
                     else:
-                        xshift = -self.sqr_deg//2
+                        xshift = -0.5
                     BO_standard_test_stim_oris = generate_bar_stim(length=self.sqr_deg / self.visual_degrees,
                                                                    width=self.sqr_deg / self.visual_degrees,
                                                                    stim_size=self.stim_size,
                                                                    divisions=self.divisions, figure_color=figure,
-                                                                   ground_color=ground, xshift=xshift/self.visual_degrees, yshift=0,
+                                                                   ground_color=ground, xshift=xshift, yshift=0,
                                                                    posx=self.posx / self.visual_degrees,
                                                                    posy=self.posy / self.visual_degrees)
                     division_idx = 0
