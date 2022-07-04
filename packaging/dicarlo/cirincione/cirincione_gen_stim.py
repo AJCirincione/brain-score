@@ -18,15 +18,17 @@ BO_PARAMS = np.array([DEGREES, SIZE_PX, ORIENTATION_DIV, POS_X, POS_Y, SQUARE_SI
 STIM_NAMES = [BO_STIM_NAME]
 STIM_PARAMS = {BO_STIM_NAME: BO_PARAMS}
 
+generate_stimulus=1
 def main():
     for stim_name in STIM_NAMES:
         stim_dir = DATA_DIR + stim_name
-        if not (os.path.isdir(stim_dir)):
-            print('TEST')
+        if generate_stimulus==1:
+            print('Generating...')
             gen_BO_stim(BO_params = STIM_PARAMS[stim_name], save_dir = stim_dir)
         stimuli = load_stim_info(stim_name, stim_dir)
         print('Packaging stimuli:' + stimuli.identifier)
         #package_stimulus_set(stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
+
 
 if __name__ == '__main__':
     main()
