@@ -112,8 +112,8 @@ class BO_Stimulus:
         radius_L = int((stim_size * length) // 2)
         radius_W = int((stim_size * width) // 2)
 
-        square_stim = np.zeros((divisions, stim_size, stim_size, 3))
-        surround_stim = np.zeros((divisions, stim_size * 2, stim_size * 2, 3))
+        square_stim = np.zeros((self.divisions, stim_size, stim_size, 3))
+        surround_stim = np.zeros((self.divisions, stim_size * 2, stim_size * 2, 3))
         surround_stim[:, :, :] = ground_color
 
         origin = stim_size // 2
