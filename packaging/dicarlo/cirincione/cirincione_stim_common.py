@@ -219,8 +219,8 @@ def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_
                     except:
                         pass
             surround_rotated = nd.rotate(surround_stim[idx], ang, reshape=False, prefilter=False)
-            square_stim[idx] = surround_rotated[int((stim_size - 0.5 * stim_size) + (posy * stim_size)):int(
-                (stim_size + 0.5 * stim_size) + (posy * stim_size)),
+            square_stim[idx] = surround_rotated[int((stim_size - 0.5 * stim_size) - (posy * stim_size)):int(
+                (stim_size + 0.5 * stim_size) - (posy * stim_size)),
                                int((stim_size - 0.5 * stim_size) - (posx * stim_size)):int(
                                    (stim_size + 0.5 * stim_size) - (posx * stim_size))]
             idx += 1
