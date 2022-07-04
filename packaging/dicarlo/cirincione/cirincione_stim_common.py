@@ -141,7 +141,7 @@ class BO_Stimulus:
     def xyY_to_RGB(self):
         #Credit to https://www.easyrgb.com/en/math.php
         xyY_color_dict = self.xyY_color_dict
-        rgb_color_dict = blank  # posx and posy offset
+        rgb_color_dict = self.blank  # posx and posy offset
         for keys in xyY_color_dict.keys():
             Y = xyY_color_dict[keys][2]
             X = xyY_color_dict[keys][0] * (Y / xyY_color_dict[keys][1])
