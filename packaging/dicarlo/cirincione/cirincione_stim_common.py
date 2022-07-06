@@ -380,7 +380,7 @@ def gen_BO_stim(BO_params, save_dir, stim_name):
     if not (os.path.isdir(save_dir)):
         os.mkdir(save_dir)
 
-    if stim_name == 'dicarlo.Cirincione2022_border_ownership':
+    if stim_name == 'dicarlo.Cirincione2022_border_ownership_standard_test':
         BO_stim = BO_Stimulus(save_dir=save_dir,
                           visual_degrees=BO_params[0],
                           stim_size=BO_params[1],
@@ -389,7 +389,7 @@ def gen_BO_stim(BO_params, save_dir, stim_name):
                           posy=BO_params[4],
                           sqr_deg=BO_params[5])
 
-    if stim_name == 'dicarlo.Cirincione2022_bo_optim':
+    if stim_name == 'dicarlo.Cirincione2022_border_ownership_optimization_test':
         BO_optim = BO_Optim(save_dir=save_dir,
                         visual_degrees=BO_params[0],
                         stim_size=BO_params[1],
