@@ -26,8 +26,8 @@ def main():
             print('Generating...')
             gen_BO_stim(BO_params = BO_PARAMS, save_dir = stim_dir, stim_name=stim_name)
         stimuli = load_stim_info(stim_name, stim_dir)
-        #print('Packaging stimuli:' + stimuli.identifier)
-        #package_stimulus_set(stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
+        print('Packaging stimuli:' + stimuli.identifier)
+        package_stimulus_set(stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
 
 
 if __name__ == '__main__':
