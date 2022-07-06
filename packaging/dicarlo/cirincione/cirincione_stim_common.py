@@ -87,7 +87,7 @@ class BO_Optim:
         # the ID, the file name and the file path.
         # This will be converted to csv at the end.
         BO_optim_stim_data = pd.DataFrame(
-            columns=['image_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'width',
+            columns=['stimulus_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'width',
                      'length', 'image_file_name', 'image_current_local_file_path'])
 
         # Variable that will be used to encode color in the image_id (00 is red, 01 is brown, etc). It will count up
@@ -141,7 +141,7 @@ class BO_Optim:
 
                         # Add all properties of the saved stimulus as a new row in the data frame initialized earlier.
                         BO_optim_stim_data = BO_optim_stim_data.append(
-                            {'image_id': ID, 'degrees': visual_degrees, 'position_y': posy, 'position_x': posx, 'color': color_name,
+                            {'stimulus_id': ID, 'degrees': visual_degrees, 'position_y': posy, 'position_x': posx, 'color': color_name,
                              'orientation': 180 / self.divisions * d, 'width': W, 'length': L, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
 
@@ -185,7 +185,7 @@ class BO_Stimulus:
         # Very similar to dataframe in previous class, but now we keep track of polarity (switch ground and figure colors)
         # and side (flip square over inner side) instead of length and width (consistent in this stimulus)
         BO_standard_test_stim_data = pd.DataFrame(
-            columns=['image_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'polarity', 'side',
+            columns=['stimulus_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'polarity', 'side',
                      'image_file_name', 'image_current_local_file_path'])
 
         color_idx = 0
@@ -234,7 +234,7 @@ class BO_Stimulus:
                         file_name = 'BO_stim_' + str(ID) + '.png'
 
                         BO_standard_test_stim_data = BO_standard_test_stim_data.append(
-                            {'image_id': ID, 'degrees': self.visual_degrees, 'position_y': self.posy, 'position_x': self.posx, 'color': color_name,
+                            {'stimulus_id': ID, 'degrees': self.visual_degrees, 'position_y': self.posy, 'position_x': self.posx, 'color': color_name,
                              'orientation': 180 / divisions * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
 
@@ -363,10 +363,10 @@ def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_
 
 def load_stim_info(stim_name, data_dir):
     # Loads csv
-    stim = pd.read_csv(os.path.join(data_dir, 'stimulus_set'), dtype={'image_id': str})
+    stim = pd.read_csv(os.path.join(data_dir, 'stimulus_set'), dtype={'stimulus_id': str})
 
     # Gives dictionary of image_id's and respective file paths
-    image_paths = dict((key, value) for (key, value) in zip(stim['image_id'].values,
+    image_paths = dict((key, value) for (key, value) in zip(stim['stimulus_id'].values,
                                                             [os.path.join(data_dir, image_name) for image_name
                                                              in stim['image_file_name'].values]))
     stim_set = StimulusSet(stim[stim.columns[:-1]])
