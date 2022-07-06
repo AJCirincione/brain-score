@@ -313,29 +313,49 @@ def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_
         radius_L = int(length // 2)
         radius_W = int(width // 2)
 
+        # Sets up array for each stimulus at different orientations
         square_stim = np.zeros((divisions, stim_size, stim_size, 3))
+
+        # Used while rotating stimulus. This is a larger array which is cropped after the fact. The reasoning for this
+        # is if the bar in square_stim is cut off at all before it is rotated, only the cut off portion will rotate while
+        # any stimulus outside the cut off area is disregarded. This is a workaround.
         surround_stim = np.zeros((divisions, stim_size * 2, stim_size * 2, 3))
+
+        #Set everything as ground color initially, figure color assigned in a bit
         surround_stim[:, :, :] = ground_color
 
+        #Sets origin as well as x_lim and y_lim - the space the figure / bar stimulus takes up.
         origin = stim_size // 2
         x_lim = np.linspace(2 * origin - radius_W, 2 * origin + radius_W, radius_W * 2, endpoint=False) + xshift
         y_lim = np.linspace(2 * origin - radius_L, 2 * origin + radius_L, radius_L * 2, endpoint=False) + yshift
 
         idx = 0
+        # Loop through all orientations
         for ang in (angles):
+
+            # Contained within x_lim
             for x in x_lim:
+
+                # Contained with y_lim
                 for y in y_lim:
-                    col = figure_color
+
+                    # We use 'try' here is there is a chance the area that we are trying to color in for the figure goes
+                    # outside array dimensions. If it does, nothing happens as opposed to an error being thrown
                     try:
-                        surround_stim[idx, int(np.floor(y)), int(np.floor(x))] = col
+                        surround_stim[idx, int(np.floor(y)), int(np.floor(x))] = figure_color
                     except:
                         pass
+
+            # Rotate stimulus after figure has been filled with color
             surround_rotated = nd.rotate(surround_stim[idx], ang, reshape=False, prefilter=False)
-            square_stim[idx] = surround_rotated[int((stim_size - 0.5 * stim_size) - (posy)):int(
-                (stim_size + 0.5 * stim_size) - (posy)),
-                               int((stim_size - 0.5 * stim_size) - (posx)):int(
-                                   (stim_size + 0.5 * stim_size) - (posx))]
+
+            # Crop the 'surround' to get the desired size for the original stimulus. Shift by posx and posy.
+            square_stim[idx] = surround_rotated[int((stim_size - 0.5 * stim_size) - posy):int(
+                (stim_size + 0.5 * stim_size) - posy),
+                               int((stim_size - 0.5 * stim_size) - posx):int(
+                                   (stim_size + 0.5 * stim_size) - posx)]
             idx += 1
+
         return square_stim.astype(int)
 
 
@@ -352,10 +372,10 @@ def load_stim_info(stim_name, data_dir):
     return stim_set
 
 def gen_BO_stim(BO_params, save_dir, stim_name):
+
     if not (os.path.isdir(save_dir)):
         os.mkdir(save_dir)
-   # BO_PARAMS = np.array([DEGREES, SIZE_PX, ORIENTATION_DIV,
-    # POS_X, POS_Y, SQUARE_SIZE])
+
     if stim_name == 'dicarlo.Cirincione2022_border_ownership':
         BO_stim = BO_Stimulus(save_dir=save_dir,
                           visual_degrees=BO_params[0],
