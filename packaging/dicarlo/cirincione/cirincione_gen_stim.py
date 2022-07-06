@@ -4,8 +4,8 @@ from cirincione_stim_common import gen_BO_stim, load_stim_info
 from brainio.packaging import package_stimulus_set
 
 
-BO_STIM_NAME = 'dicarlo.Cirincione2022_border_ownership'
-BO_OPTIM_NAME = 'dicarlo.Cirincione2022_bo_optim'
+BO_STIM_NAME = 'dicarlo.Cirincione2022_border_ownership_standard_test'
+BO_OPTIM_NAME = 'dicarlo.Cirincione2022_border_ownership_optimization_test'
 DATA_DIR = '/braintree/data2/active/users/andrewci/stimulus_sets/' #(braintree stimulus folder)
 DEGREES = 12
 SIZE_PX = 672
