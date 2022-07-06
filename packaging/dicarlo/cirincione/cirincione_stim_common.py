@@ -116,7 +116,7 @@ class BO_Optim:
                     # 15 degs, 30 degs, ..., 165 degs.
                     BO_optim_stim_oris = generate_bar_stim(length=L, width=W,
                                                            stim_size=stim_size,
-                                                           divisions=divisions, figure_color=self.colors[color_name],
+                                                           divisions=self.divisions, figure_color=self.colors[color_name],
                                                            ground_color=self.ground,
                                                            posx=posx,
                                                            posy=posy)
@@ -124,7 +124,7 @@ class BO_Optim:
                     # Used to encode orientation division. 0 degs is 00 and following orientations are 01, 02, etc...
                     division_idx = 0
 
-                    for d in range(divisions):
+                    for d in range(self.divisions):
 
                         # Save each property in two digit spaces. First two digits is color, then width, then length,
                         # and finally orientation division. For example, 00000000 would be a red stimulus with
@@ -224,7 +224,7 @@ class BO_Stimulus:
                                                                    visual_degrees=self.visual_degrees)
 
                     division_idx = 0
-                    for d in range(divisions):
+                    for d in range(self.divisions):
 
                         ID = str(color_idx).zfill(2) + str(polarity).zfill(2) + str(side).zfill(2) + str(
                             division_idx).zfill(2)
