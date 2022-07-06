@@ -361,13 +361,16 @@ def generate_bar_stim(length, width, stim_size, divisions, figure_color, ground_
 
 
 def load_stim_info(stim_name, data_dir):
+    # Loads csv
     stim = pd.read_csv(os.path.join(data_dir, 'stimulus_set'), dtype={'image_id': str})
+
+    # Gives dictionary of image_id's and respective file paths
     image_paths = dict((key, value) for (key, value) in zip(stim['image_id'].values,
                                                             [os.path.join(data_dir, image_name) for image_name
                                                              in stim['image_file_name'].values]))
     stim_set = StimulusSet(stim[stim.columns[:-1]])
-    stim_set.image_paths = image_paths
-    stim_set.identifier = stim_name
+    stim_set.image_paths = image_paths # file path
+    stim_set.identifier = stim_name # ID?
 
     return stim_set
 
