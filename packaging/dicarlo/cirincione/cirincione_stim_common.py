@@ -67,7 +67,6 @@ class BO_Optim:
 
         # How many steps are there in different orientations from 0 to 180? If divisions is 12,
         # each step is 15 degs as 180/12 = 15.
-        divisions = int(divisions)
         self.divisions = int(divisions)
 
         # Slight 0.5 deg offset to study neurons that are not directly in the center of the visual field.
@@ -88,7 +87,7 @@ class BO_Optim:
         # the ID, the file name and the file path.
         # This will be converted to csv at the end.
         BO_optim_stim_data = pd.DataFrame(
-            columns=['image_id', 'degrees', 'posy', 'posx', 'color', 'orientation', 'width',
+            columns=['image_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'width',
                      'length', 'image_file_name', 'image_current_local_file_path'])
 
         # Variable that will be used to encode color in the image_id (00 is red, 01 is brown, etc). It will count up
@@ -142,8 +141,8 @@ class BO_Optim:
 
                         # Add all properties of the saved stimulus as a new row in the data frame initialized earlier.
                         BO_optim_stim_data = BO_optim_stim_data.append(
-                            {'image_id': ID, 'degrees': visual_degrees, 'posy': posy, 'posx': posx, 'color': color_name,
-                             'orientation': 180 / 12 * d, 'width': W, 'length': L, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
+                            {'image_id': ID, 'degrees': visual_degrees, 'position_y': posy, 'position_x': posx, 'color': color_name,
+                             'orientation': 180 / self.divisions * d, 'width': W, 'length': L, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
 
                         # Save image to save_dir (save directory)
@@ -170,7 +169,6 @@ class BO_Stimulus:
         self.stim_size = int(stim_size)
         self.blank = blank
         self.visual_degrees = visual_degrees
-        divisions = int(divisions)
         self.divisions = int(divisions)
         self.posx = posx
         self.posy = posy
@@ -182,10 +180,13 @@ class BO_Stimulus:
         self.colors = xyY_to_RGB(xyY_COLOR_DICT, blank)
         self.ground = self.colors['light_gray']
 
+        # Friday - have responses to 4 stimuli A,B,C,D
+
         # Very similar to dataframe in previous class, but now we keep track of polarity (switch ground and figure colors)
         # and side (flip square over inner side) instead of length and width (consistent in this stimulus)
         BO_standard_test_stim_data = pd.DataFrame(
-            columns=['image_id', 'degrees', 'posy', 'posx', 'color', 'orientation', 'polarity', 'side',  'image_file_name', 'image_current_local_file_path'])
+            columns=['image_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'polarity', 'side',
+                     'image_file_name', 'image_current_local_file_path'])
 
         color_idx = 0
         print('Generating Stimulus...')
@@ -233,8 +234,8 @@ class BO_Stimulus:
                         file_name = 'BO_stim_' + str(ID) + '.png'
 
                         BO_standard_test_stim_data = BO_standard_test_stim_data.append(
-                            {'image_id': ID, 'degrees': self.visual_degrees, 'posy': self.posy, 'posx': self.posx, 'color': color_name,
-                             'orientation': 180 / 12 * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
+                            {'image_id': ID, 'degrees': self.visual_degrees, 'position_y': self.posy, 'position_x': self.posx, 'color': color_name,
+                             'orientation': 180 / divisions * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
                             ignore_index=True)
 
                         imageio.imwrite(os.path.join(self.save_dir,file_name), BO_standard_test_stim_img)
