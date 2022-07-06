@@ -87,7 +87,7 @@ def main():
         gen_texture_stim(degrees=TEXTURE_DEGREES, stim_pos=np.array([POS[0], POS[0]]), save_dir=texture_dir)
     stimuli = load_stim_info(TEXTURE_STIM_NAME, texture_dir)
     print('Packaging stimuli:' + stimuli.identifier)
-    package_stimulus_set(stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.contrib')
+    package_stimulus_set(catalog_name='brainio_brainscore', stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.contrib')
     return
 
 
