@@ -17,8 +17,8 @@ SQUARE_SIZE = 4 #degrees
 BO_PARAMS = np.array([DEGREES, SIZE_PX, ORIENTATION_DIV, POS_X, POS_Y, SQUARE_SIZE])
 
 #STIM_NAMES = [BO_STIM_NAME, BO_OPTIM_NAME]
-STIM_NAMES = [BO_OPTIM_NAME]
-generate_stimulus=1
+STIM_NAMES = [BO_OPTIM_NAME,BO_STIM_NAME]
+generate_stimulus=0
 def main():
     for stim_name in STIM_NAMES:
         stim_dir = os.path.join(DATA_DIR, stim_name)
@@ -28,9 +28,9 @@ def main():
         print(f'Stim name: {stim_name}')
         print(f'Stim directory: {stim_dir}')
         stimuli = load_stim_info(stim_name, stim_dir)
-        #print('Packaging stimuli:' + stimuli.identifier)
-        #package_stimulus_set(catalog_name='brainio_brainscore', proto_stimulus_set=stimuli,
-                  #           stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
+        print('Packaging stimuli:' + stimuli.identifier)
+        package_stimulus_set(catalog_name='brainio_brainscore', proto_stimulus_set=stimuli,
+                             stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
 
 
 if __name__ == '__main__':
