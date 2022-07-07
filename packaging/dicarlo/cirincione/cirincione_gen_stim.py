@@ -30,7 +30,7 @@ def main():
         stimuli = load_stim_info(stim_name, stim_dir)
         #print('Packaging stimuli:' + stimuli.identifier)
         #package_stimulus_set(catalog_name='brainio_brainscore', proto_stimulus_set=stimuli,
-                             stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
+                  #           stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
 
 
 if __name__ == '__main__':
