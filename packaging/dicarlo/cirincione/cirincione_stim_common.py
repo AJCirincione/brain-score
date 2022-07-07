@@ -98,7 +98,7 @@ class BO_Optim:
         print('Constructing...')
         # Note we loop through 15 colors ([0:14]) and not the last. The last color is always the ground color, and
         # in this set is never assigned to the figure.
-        for color_name in tqdm(list(self.colors.keys())[0:14]):
+        for color_name in tqdm(list(self.colors.keys())[0:15]):
 
             # Used to encode width as either 00 (0.1) or 01 (0.2)
             width_idx = 0
@@ -190,7 +190,7 @@ class BO_Stimulus:
 
         color_idx = 0
         print('Generating Stimulus...')
-        for color_name in tqdm(list(self.colors.keys())[0:14]):
+        for color_name in tqdm(list(self.colors.keys())[0:15]):
 
             for polarity in range(2):
 
