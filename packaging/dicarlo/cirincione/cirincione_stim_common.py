@@ -88,7 +88,7 @@ class BO_Optim:
         # This will be converted to csv at the end.
         BO_optim_stim_data = pd.DataFrame(
             columns=['stimulus_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'width',
-                     'length', 'image_file_name', 'image_current_local_file_path'])
+                     'length', 'image_file_name', 'stimulus_paths'])
 
         # Variable that will be used to encode color in the image_id (00 is red, 01 is brown, etc). It will count up
         # as the for loop loops through the colors. Similar will be done for other properties.
@@ -142,7 +142,7 @@ class BO_Optim:
                         # Add all properties of the saved stimulus as a new row in the data frame initialized earlier.
                         BO_optim_stim_data = BO_optim_stim_data.append(
                             {'stimulus_id': ID, 'degrees': visual_degrees, 'position_y': posy, 'position_x': posx, 'color': color_name,
-                             'orientation': 180 / self.divisions * d, 'width': W, 'length': L, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
+                             'orientation': 180 / self.divisions * d, 'width': W, 'length': L, 'image_file_name': file_name, 'stimulus_paths': self.save_dir},
                             ignore_index=True)
 
                         # Save image to save_dir (save directory)
@@ -186,7 +186,7 @@ class BO_Stimulus:
         # and side (flip square over inner side) instead of length and width (consistent in this stimulus)
         BO_standard_test_stim_data = pd.DataFrame(
             columns=['stimulus_id', 'degrees', 'position_y', 'position_x', 'color', 'orientation', 'polarity', 'side',
-                     'image_file_name', 'image_current_local_file_path'])
+                     'image_file_name', 'stimulus_paths'])
 
         color_idx = 0
         print('Generating Stimulus...')
@@ -235,7 +235,7 @@ class BO_Stimulus:
 
                         BO_standard_test_stim_data = BO_standard_test_stim_data.append(
                             {'stimulus_id': ID, 'degrees': self.visual_degrees, 'position_y': self.posy, 'position_x': self.posx, 'color': color_name,
-                             'orientation': 180 / divisions * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'image_current_local_file_path': self.save_dir},
+                             'orientation': 180 / divisions * d, 'polarity': polarity, 'side': side, 'image_file_name': file_name, 'stimulus_paths': self.save_dir},
                             ignore_index=True)
 
                         imageio.imwrite(os.path.join(self.save_dir,file_name), BO_standard_test_stim_img)
