@@ -370,7 +370,7 @@ def load_stim_info(stim_name, data_dir):
                                                             [os.path.join(data_dir, image_name) for image_name
                                                              in stim['image_file_name'].values]))
     stim_set = StimulusSet(stim[stim.columns[:-1]])
-    stim_set.image_paths = image_paths # file path
+    stim_set.stimulus_paths = image_paths # file path
     stim_set.identifier = stim_name # ID?
 
     return stim_set
