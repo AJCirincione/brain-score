@@ -51,19 +51,19 @@ def load_model_and_BO_stimulus(BO_OPTIM_NAME, optim_test_dir, BO_STIM_NAME, stan
                                         stimuli=standard_test_stimuli, number_of_trials=number_of_trials, in_rf=standard_stim_in_rf)
     return model, optimization_test_responses, standard_test_responses                                
 
-def BO_optimization_and_standard_test(neuroid_no,optimization_test_responses, standard_test_responses):
+def BO_optimization_and_standard_test(neuroid_no, optimization_test_responses, standard_test_responses):
     opt_response = optimization_test_responses.values
     opt_n_neuroids = opt_response.shape[0]
     opt_color = np.array(sorted(set(optimization_test_responses.color.values)))
     opt_orientation = np.array(sorted(set(optimization_test_responses.orientation.values)))
     opt_width = np.array(sorted(set(optimization_test_responses.width.values)))
     opt_length = np.array(sorted(set(optimization_test_responses.length.values)))
-    opt_response = opt_response.reshape((opt_n_neuroids, len(opt_color), len(opt_orientation),
-         len(opt_width), len(opt_length)))
-    opt_pref_color, opt_pref_orientation, opt_pref_width, opt_pref_length =\
-        np.unravel_index(np.argmax(opt_response[neuroid_no, :, :, :, :]), len(opt_color), 
-        len(opt_orientation), len(opt_width), len(opt_length))
-    opt_ori_curve = opt_response[neuroid_no, opt_pref_color, opt_pref_width, opt_pref_length]
-    plt.plot(opt_ori_curve)    
-    plt.show()
+    opt_response = opt_response.reshape((opt_n_neuroids, len(opt_color),
+            len(opt_width), len(opt_length),  len(opt_orientation)))
+    print(opt_response.shape)
+    print(opt_response)        
+   # opt_pref_color, opt_pref_width, opt_pref_length, opt_pref_orientation =\
+      #  np.unravel_index(np.argmax(opt_response[neuroid_no, :, :, :, :]), 
+       # (len(opt_color),  len(opt_width), len(opt_length), len(opt_orientation)))
+
 
