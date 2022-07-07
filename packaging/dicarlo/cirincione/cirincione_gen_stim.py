@@ -17,7 +17,7 @@ SQUARE_SIZE = 4 #degrees
 BO_PARAMS = np.array([DEGREES, SIZE_PX, ORIENTATION_DIV, POS_X, POS_Y, SQUARE_SIZE])
 
 #STIM_NAMES = [BO_STIM_NAME, BO_OPTIM_NAME]
-STIM_NAMES = BO_STIM_NAME
+STIM_NAMES = [BO_STIM_NAME]
 generate_stimulus=0
 def main():
     for stim_name in STIM_NAMES:
