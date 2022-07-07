@@ -29,7 +29,7 @@ def main():
         print(f'Stim directory: {stim_dir}')
         stimuli = load_stim_info(stim_name, stim_dir)
         print('Packaging stimuli:' + stimuli.identifier)
-        package_stimulus_set(catalog_name='brainio_brainscore', proto_stimulus_set=stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.dicarlo')
+        package_stimulus_set(catalog_name='brainio_brainscore', proto_stimulus_set=stimuli, stimulus_set_identifier=stimuli.identifier, bucket_name='brainio.contrib')
 
 
 if __name__ == '__main__':
