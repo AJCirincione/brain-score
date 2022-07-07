@@ -18,7 +18,7 @@ BO_PARAMS = np.array([DEGREES, SIZE_PX, ORIENTATION_DIV, POS_X, POS_Y, SQUARE_SI
 
 #STIM_NAMES = [BO_STIM_NAME, BO_OPTIM_NAME]
 STIM_NAMES = [BO_OPTIM_NAME]
-generate_stimulus=0
+generate_stimulus=1
 def main():
     for stim_name in STIM_NAMES:
         stim_dir = os.path.join(DATA_DIR, stim_name)
