@@ -1,5 +1,7 @@
 import numpy as np
 import sys
+import os
+import pandas as pd
 from brainscore.model_interface import BrainModel
 sys.path.insert(1, '/braintree/home/andrewci/brain-score/')
 from candidate_models.model_commitments import brain_translated_pool
@@ -51,32 +53,78 @@ def load_model_and_BO_stimulus(BO_OPTIM_NAME, optim_test_dir, BO_STIM_NAME, stan
                                         stimuli=standard_test_stimuli, number_of_trials=number_of_trials, in_rf=standard_stim_in_rf)
     return model, optimization_test_responses, standard_test_responses                                
 
-def BO_optimization_test(neuroid_no, optimization_test_responses):
+def BO_optimization_and_standard_test(optimization_test_responses, standard_test_responses, model_identifier, path = None, save_figs_and_data = 0):
+    #sanity_checks: Fix color, run different orientations, include in slides
+
     opt_response = optimization_test_responses.values
     opt_n_neuroids = opt_response.shape[0]
-    opt_color = np.array(sorted(set(optimization_test_responses.color.values)))
-    opt_orientation = np.array(sorted(set(optimization_test_responses.orientation.values)))
-    opt_width = np.array(sorted(set(optimization_test_responses.width.values)))
-    opt_length = np.array(sorted(set(optimization_test_responses.length.values)))
-    opt_response = opt_response.reshape((opt_n_neuroids, len(opt_color),
-            len(opt_width), len(opt_length),  len(opt_orientation)))        
-    opt_pref_color, opt_pref_width, opt_pref_length, opt_pref_orientation =\
-        np.unravel_index(np.argmax(opt_response[neuroid_no, :, :, :, :]), 
-        (len(opt_color),  len(opt_width), len(opt_length), len(opt_orientation)))
-    return opt_pref_color, opt_pref_width, opt_pref_length, opt_pref_orientation
+    BO_responses = pd.DataFrame(
+            columns=['neuroid_no', 'response_ratio', 'A', 'B', 'C', 'D'])
+    for neuroid_no in range(opt_n_neuroids):
+        opt_color = np.array(sorted(set(optimization_test_responses.color.values)))
+        opt_orientation = np.array(sorted(set(optimization_test_responses.orientation.values)))
+        opt_width = np.array(sorted(set(optimization_test_responses.width.values)))
+        opt_length = np.array(sorted(set(optimization_test_responses.length.values)))
+        opt_response = opt_response.reshape((opt_n_neuroids, len(opt_color),
+                len(opt_width), len(opt_length),  len(opt_orientation)))        
+        opt_pref_color, opt_pref_width, opt_pref_length, opt_pref_orientation =\
+            np.unravel_index(np.argmax(opt_response[neuroid_no, :, :, :, :]), 
+            (len(opt_color),  len(opt_width), len(opt_length), len(opt_orientation)))
 
-def BO_standard_test(neuroid_no, standard_test_responses, opt_pref_color, opt_pref_orientation):
-    std_response = standard_test_responses.values
-    std_n_neuroids = std_response.shape[0]
-    std_color = np.array(sorted(set(standard_test_responses.color.values)))
-    std_orientation = np.array(sorted(set(standard_test_responses.orientation.values)))
-    std_polarity = np.array(sorted(set(standard_test_responses.polarity.values)))
-    std_side = np.array(sorted(set(standard_test_responses.side.values)))
-    std_response = std_response.reshape((std_n_neuroids, len(std_color),
-            len(std_polarity), len(std_side),  len(std_orientation)))     
-    std_A = std_response[neuroid_no, opt_pref_color, 0, 0, opt_pref_orientation]
-    std_B = std_response[neuroid_no, opt_pref_color, 1, 1, opt_pref_orientation]
-    std_C = std_response[neuroid_no, opt_pref_color, 1, 0, opt_pref_orientation]
-    std_D = std_response[neuroid_no, opt_pref_color, 0, 1, opt_pref_orientation]
-    print(std_response[neuroid_no, opt_pref_color, :, :, opt_pref_orientation])
-    return std_A, std_B, std_C, std_D
+        std_response = standard_test_responses.values
+        std_n_neuroids = std_response.shape[0]
+        std_color = np.array(sorted(set(standard_test_responses.color.values)))
+        std_orientation = np.array(sorted(set(standard_test_responses.orientation.values)))
+        std_polarity = np.array(sorted(set(standard_test_responses.polarity.values)))
+        std_side = np.array(sorted(set(standard_test_responses.side.values)))
+        std_response = std_response.reshape((std_n_neuroids, len(std_color),
+                len(std_polarity), len(std_side),  len(std_orientation)))     
+        std_A = std_response[neuroid_no, opt_pref_color, 0, 0, opt_pref_orientation]
+        std_B = std_response[neuroid_no, opt_pref_color, 1, 1, opt_pref_orientation]
+        std_C = std_response[neuroid_no, opt_pref_color, 1, 0, opt_pref_orientation]
+        std_D = std_response[neuroid_no, opt_pref_color, 0, 1, opt_pref_orientation]
+        AC = std_A + std_C
+        BD = std_B + std_D
+        ratio_numerator = max(AC, BD)
+        ratio_denominator = min(AC, BD)
+        response_ratio = ratio_numerator / ratio_denominator
+        BO_responses = BO_responses.append(
+                            {'neuroid_no': neuroid_no, 'response_ratio': response_ratio, 'A': std_A, 
+                            'B': std_B, 'C': std_C, 'D':std_D},ignore_index=True)
+
+        if save_figs_and_data == 1:
+            plt.ioff()
+
+            ABCD_values = BO_responses.loc[neuroid_no][2:]
+            keys = BO_responses.keys()[2:]
+
+            if not os.path.isdir(os.path.join(path, model_identifier)):
+                os.mkdir(os.path.join(path, model_identifier))
+
+            save_path = os.path.join(path, model_identifier)
+
+            if not os.path.isdir(os.path.join(path, model_identifier, 'ABCD')):
+                os.mkdir(os.path.join(path, model_identifier, 'ABCD'))
+            fig = plt.figure(neuroid_no)
+            plt.bar(keys, ABCD_values)
+            plt.title(f'{model_identifier}: \n Neuroid Number: {neuroid_no}, Response Ratio: {BO_responses.loc[neuroid_no][1]}')
+            plt.savefig(os.path.join(save_path, 'ABCD', f'ABCD_neuroid_{neuroid_no}.png'))
+            plt.close(fig)
+
+            if not os.path.isdir(os.path.join(path, model_identifier, 'Ori Tuning Curve')):
+                os.mkdir(os.path.join(path, model_identifier, 'Ori Tuning Curve'))
+            fig = plt.figure(opt_n_neuroids+neuroid_no)
+            plt.plot(opt_response[neuroid_no, opt_pref_color, opt_pref_width, opt_pref_length])
+            plt.title(f'{model_identifier}:\n Orientation Tuning Curve for Neuroid {neuroid_no}')
+            plt.savefig(os.path.join(save_path, 'Ori Tuning Curve', f'opt_orientation_tuning_neuroid_{neuroid_no}.png'))
+            plt.close(fig)
+
+        fig = plt.figure(opt_n_neuroids*2)
+        plt.hist(BO_responses['response_ratio'])
+        plt.xlim([0,1.1])
+        plt.title(f'{model_identifier}: \n Response Ratio Distribution')
+        plt.savefig(os.path.join(save_path, f'response_ratio_dist.png'))
+        plt.close(fig)
+        
+        BO_responses.to_csv(os.path.join(save_path, 'BO_responses.csv'), index=False)
+    return BO_responses
