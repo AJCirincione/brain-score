@@ -130,7 +130,8 @@ def BO_optimization_and_standard_test(optimization_test_responses, standard_test
             BO_responses.to_csv(os.path.join(save_path, 'BO_responses.csv'), index=False)
     return BO_responses
 
-def create_response_ratio_plots(model_identifier, BO_responses, region = 'V1', path = None, save_figs_and_data = 0, V1_experimental_dist = np.array([1,2,3,1,9,13,15,19])):
+def create_response_ratio_plots(model_identifier, BO_responses, region = 'V1', path = None, 
+    save_figs_and_data = 0, V1_experimental_dist = np.array([1,2,3,1,9,13,15,19])):
 
     if save_figs_and_data == 1:
         save_path = os.path.join(path, model_identifier)
