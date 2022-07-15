@@ -85,46 +85,83 @@ def BO_optimization_and_standard_test(optimization_test_responses, standard_test
         std_D = std_response[neuroid_no, opt_pref_color, 0, 1, opt_pref_orientation]
         AC = std_A + std_C
         BD = std_B + std_D
-        ratio_numerator = max(AC, BD)
-        ratio_denominator = min(AC, BD)
+        ratio_numerator = min(AC, BD)
+        ratio_denominator = max(AC, BD)
         response_ratio = ratio_numerator / ratio_denominator
         BO_responses = BO_responses.append(
                             {'neuroid_no': neuroid_no, 'response_ratio': response_ratio, 'A': std_A, 
                             'B': std_B, 'C': std_C, 'D':std_D},ignore_index=True)
 
+        save_path = os.path.join(path, model_identifier)
         if save_figs_and_data == 1:
+
             plt.ioff()
 
             ABCD_values = BO_responses.loc[neuroid_no][2:]
             keys = BO_responses.keys()[2:]
 
-            if not os.path.isdir(os.path.join(path, model_identifier)):
-                os.mkdir(os.path.join(path, model_identifier))
+            if not os.path.isdir(save_path):
+                os.mkdir(save_path)
 
-            save_path = os.path.join(path, model_identifier)
+            
 
-            if not os.path.isdir(os.path.join(path, model_identifier, 'ABCD')):
-                os.mkdir(os.path.join(path, model_identifier, 'ABCD'))
+            if not os.path.isdir(os.path.join(save_path, 'ABCD')):
+                os.mkdir(os.path.join(save_path, 'ABCD'))
             fig = plt.figure(neuroid_no)
             plt.bar(keys, ABCD_values)
             plt.title(f'{model_identifier}: \n Neuroid Number: {neuroid_no}, Response Ratio: {BO_responses.loc[neuroid_no][1]}')
             plt.savefig(os.path.join(save_path, 'ABCD', f'ABCD_neuroid_{neuroid_no}.png'))
             plt.close(fig)
 
-            if not os.path.isdir(os.path.join(path, model_identifier, 'Ori Tuning Curve')):
-                os.mkdir(os.path.join(path, model_identifier, 'Ori Tuning Curve'))
+            if not os.path.isdir(os.path.join(save_path, 'Ori Tuning Curve')):
+                os.mkdir(os.path.join(save_path, 'Ori Tuning Curve'))
             fig = plt.figure(opt_n_neuroids+neuroid_no)
             plt.plot(opt_response[neuroid_no, opt_pref_color, opt_pref_width, opt_pref_length])
             plt.title(f'{model_identifier}:\n Orientation Tuning Curve for Neuroid {neuroid_no}')
             plt.savefig(os.path.join(save_path, 'Ori Tuning Curve', f'opt_orientation_tuning_neuroid_{neuroid_no}.png'))
             plt.close(fig)
 
-        fig = plt.figure(opt_n_neuroids*2)
-        plt.hist(BO_responses['response_ratio'])
-        plt.xlim([0,1.1])
-        plt.title(f'{model_identifier}: \n Response Ratio Distribution')
-        plt.savefig(os.path.join(save_path, f'response_ratio_dist.png'))
-        plt.close(fig)
-        
-        BO_responses.to_csv(os.path.join(save_path, 'BO_responses.csv'), index=False)
+            #fig = plt.figure(opt_n_neuroids*2)
+            #plt.hist(BO_responses['response_ratio'])
+            #plt.title(f'{model_identifier}: \n Response Ratio Distribution')
+            #plt.savefig(os.path.join(save_path, f'response_ratio_dist.png'))
+            #plt.close(fig)
+
+            BO_responses.to_csv(os.path.join(save_path, 'BO_responses.csv'), index=False)
     return BO_responses
+
+def create_response_ratio_plots(model_identifier, BO_responses, region = 'V1', path = None, save_figs_and_data = 0, V1_experimental_dist = np.array([1,2,3,1,9,13,15,19])):
+
+    if save_figs_and_data == 1:
+        save_path = os.path.join(path, model_identifier)
+        if not os.path.isdir(save_path):
+                    os.mkdir(save_path)
+
+    V1_experimental_dist = V1_experimental_dist / np.sum(V1_experimental_dist)
+    num_bins = len(V1_experimental_dist)
+
+    V1_model_dist = np.array(np.histogram(BO_responses['response_ratio'], bins = 8, range=(0,1)))
+    V1_model_dist[0] = V1_model_dist[0] / np.sum(V1_model_dist[0])
+
+    custom_bins = np.arange(1/num_bins, 1 + 1/num_bins, 1/num_bins)
+
+    plt.figure('line')
+    V1_dist_bins = np.linspace(1/num_bins, 1, num_bins)
+    plt.plot(V1_dist_bins, V1_experimental_dist)
+    plt.plot(V1_dist_bins, V1_model_dist[0])
+    plt.xticks(custom_bins)
+    plt.title(f'{model_identifier}:\n V1 Response Ratio Frequency')
+    plt.legend(['V1 Distribution', 'Model Distribution'])
+    if save_figs_and_data == 1:
+        plt.savefig(os.path.join(save_path, f'{region} Response_Ratio_Line_Plot.png'))
+    plt.show()
+
+    plt.figure('bar')
+    plt.bar(V1_dist_bins, V1_experimental_dist, width=1/(num_bins-1.5))
+    plt.bar(V1_dist_bins, V1_model_dist[0], width=1/(num_bins-1.5), alpha=0.66)
+    plt.xticks(custom_bins)
+    plt.title(f'{model_identifier}:\n V1 Response Ratio Frequency')
+    plt.legend(['V1 Distribution', 'Model Distribution'])
+    if save_figs_and_data == 1:
+        plt.savefig(os.path.join(save_path, f'{region}_Response_Ratio_Bar_Plot.png'))
+    plt.show()
