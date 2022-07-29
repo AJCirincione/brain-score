@@ -62,7 +62,7 @@ def run_v1block_DN():
     area = 'V1'
     degrees = 8
     
-    pytorch_model = get_model(map_location='cpu', model_arch='resnet18', pretrained=False,
+    pytorch_model = get_model(map_location='cuda', model_arch='resnet18', pretrained=False,
                     visual_degrees=8, stride=2, simple_channels=256,
                     complex_channels=256, noise_mode=None,
                     div_norm=True, vonenet_on=True,

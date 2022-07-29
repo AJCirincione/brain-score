@@ -8,8 +8,9 @@ from tqdm import tqdm
 from torch.distributions import uniform
 from torch.autograd import Variable
 
-#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device='cpu'
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+#device='cpu'
 
 class Identity(nn.Module):
     def forward(self, x):
