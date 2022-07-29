@@ -1,7 +1,7 @@
 
 import functools
 import numpy as np
-
+from model_tools.activations.pytorch import PytorchWrapper, load_preprocess_images
 
 MODEL_TRAINING = {'alexnet': 'IN_supervised',
              'alexnet-random': 'None',
@@ -50,7 +50,13 @@ MODEL_INPUT_SIZE = {'alexnet': 224,
                     }
 
 
-
+def activations_wrapper(model):    
+    image_size = model.image_size
+    preprocessing = functools.partial(load_preprocess_images, image_size=image_size,
+                                      normalize_mean=(0.5, 0.5, 0.5), normalize_std=(0.5, 0.5, 0.5))
+    wrapper = PytorchWrapper(identifier=model.identifier, model=model, preprocessing=preprocessing)
+    wrapper.image_size = image_size
+    return wrapper
 
 def get_v1_model(base_model_identifier, area, layer, degrees, activations_model=None):
     from model_tools.brain_transformation import ModelCommitment
@@ -62,7 +68,7 @@ def get_v1_model(base_model_identifier, area, layer, degrees, activations_model=
             activations_model = cornet(base_model_identifier, separate_time=False)
         else:
             activations_model = base_model_pool[base_model_identifier]
-    identifier = (f"{base_model_identifier}_{area}-{layer}_deg-{degrees}")
+    identifier = f"{base_model_identifier}_{area}-{layer}_deg-{degrees}"
     layer_commitment = {area: layer}
     model = ModelCommitment(identifier, activations_model=activations_model, layers=[layer],
                             region_layer_map=layer_commitment, visual_degrees=degrees)
