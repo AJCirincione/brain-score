@@ -19,7 +19,7 @@ class Wrapper(Module):
         self.module = model
 
 
-def get_model(model_arch='resnet18', pretrained=True, map_location='cpu', div_norm=True, vonenet_on=True, color_channels = 1, use_full_image_net=0, restore_path=None, **kwargs):
+def get_model(model_arch='resnet18', pretrained=True, map_location='cuda', div_norm=True, vonenet_on=True, color_channels = 1, use_full_image_net=0, restore_path=None, **kwargs):
     """
     Returns a VOneNet model.
     Select pretrained=True for returning one of the 3 pretrained models.
